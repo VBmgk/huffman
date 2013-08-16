@@ -7,6 +7,7 @@ Prazo: Sábado 17/08 !!!
 
 ## Estrutura da Implementação
 
+*Referencia bizu: http://www.ccs.neu.edu/home/jnl22/oldsite/cshonor/jeff.html*
 
 ### Compactação
 

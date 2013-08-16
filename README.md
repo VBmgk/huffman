@@ -21,4 +21,5 @@ Prazo: Sábado 17/08 !!!
 ### Descompactação
 
 * Ler árvore(Pré Ordem e Ordem Simétrica)
-* Percorrer arquivo codificado e decodificar
+* Percorrer arquivo codificado
+* Gerar .txt

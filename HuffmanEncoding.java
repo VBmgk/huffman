@@ -15,7 +15,9 @@ class Data{
 	public int getFrec(){	return freq;}	
 	
 	public void setChar(char ch){	c = ch;}
-	public void setFrec(int f){	freq = f;}	
+	public void setFrec(int f){	freq = f;}
+
+	public void print(){ System.out.print(c+" "+freq);}
 }
 
 class Arvore{
@@ -41,6 +43,15 @@ class Arvore{
 
 		dado.setChar(c);
 		dado.setFrec(frec);
+
+		this.esq = this.dir = null;
+	}
+
+	Arvore(Data new_d){
+		folha = true;
+		aux = " ";
+
+		dado = new_d;
 
 		this.esq = this.dir = null;
 	}
@@ -114,6 +125,52 @@ public class HuffmanEncoding{
 	int numChar;
 
 	public static void main(String[] args){
+		Arvore tree = HuffmanEncoding.buildFileTree("testing.txt");
+
+		tree.show_frec();
+	}
+
+	public static Arvore buildFileTree(String arq){
+		int i;
+		Data[] d = Estatistica.distribuicao(arq);
+
+		Arvore tree = new Arvore();
+
+		Arvore[] vec = new Arvore[d.length], aux;
+
+		for(i = 0; i<d.length ; i++){ 
+			vec[i] = new Arvore(d[i]);
+
+			vec[i].dado.print();
+		}
+
+		while(vec.length >=2){
+			//ordenar
+
+			tree = new Arvore();
+
+			tree.insert(vec[0],true);
+			tree.insert(vec[1],false);
+
+			//adicionando a arvore criada
+			vec[0] = tree;
+
+			//eliminando os anteriores
+			aux = new Arvore[vec.length];
+			aux = vec;
+
+			vec = new Arvore[aux.length - 1];
+
+			for(i = 1; i<vec.length ; i++){ vec[i] = aux[i+1];}
+		}
+
+		return tree;
+	}
+}
+/*public class HuffmanEncoding{
+	int numChar;
+
+	public static void main(String[] args){
 		System.out.println("teste");
 		
 		teste();
@@ -150,3 +207,4 @@ public class HuffmanEncoding{
 		tree.print();
 	}
 }
+*/

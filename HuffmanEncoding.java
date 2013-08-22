@@ -186,7 +186,7 @@ public class HuffmanEncoding{
 		Arvore tree = HuffmanEncoding.buildFileTree(ent);
 
 		for(i = 0; i<d.length ;i++){
-			System.out.println(d[i].getChar()+" "+tree.getHuffmanCode(d[i].getChar()));
+			System.out.println(d[i].getChar()+" "+tree.getTreeCode(d[i].getChar()));
 		}
 
 	        BufferedReader br = null;

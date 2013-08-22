@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.TreeSet;
 import java.util.Scanner;
 
@@ -68,9 +71,48 @@ class Arvore{
 		}
 
 		//atualizando frequencia geral da arvore
-		this.dado.setFrec(this.dado.getFrec() + a.dado.getFrec());
-		
+		if(a != null) this.dado.setFrec(this.dado.getFrec() + a.dado.getFrec());
+		else { System.out.print("NULO!!");}
+
+
 		return true;
+	}
+
+	
+	public boolean find_2(char c){
+		if(this.folha == false){
+			if(this.esq.folha && this.esq.dado.getChar() == c){
+				if(this.aux == " "){	this.aux = "0";}
+				else{	this.aux = "0"+this.aux;}
+
+				return true;
+			}
+
+			if(this.esq.folha == false){
+				if(this.esq.find(c) == true){
+					this.aux = "0"+this.aux;
+
+					return true;
+				}
+			}
+			
+			if(this.dir.folha && this.dir.dado.getChar() == c){
+				if(this.aux == " "){	this.aux = "1";}
+				else{	this.aux = "1"+this.aux;}
+
+				return true;
+			}
+			
+			if(this.dir.folha == false){
+				if(this.dir.find(c) == true){
+					this.aux = "1"+this.aux;
+
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public boolean find(char c){
@@ -109,30 +151,64 @@ class Arvore{
 		return false;
 	}
 
-	public void print(){
-		System.out.println(this.aux);
+	public String getTreeCode(char c){
+		this.find(c);
+		String buff = this.aux;
 		aux = " ";
+
+		return buff;
+	}
+
+	public String getHuffmanCode(char c){
+		this.find_2(c);
+		String buff = this.aux;
+		aux = " ";
+
+		return buff;
 	}
 
 	public void show_frec(){
-		if(this.esq != null) this.esq.show_frec();
 		System.out.println(this.dado.getFrec());
+		if(this.esq != null) this.esq.show_frec();
 		if(this.dir != null) this.dir.show_frec();
 	}
 }
 
 public class HuffmanEncoding{
 	int numChar;
+	static Data[] d;
+	String[] hufftree;
 
 	public static void main(String[] args){
-		Arvore tree = HuffmanEncoding.buildFileTree("testing.txt");
+		int i;
+	        String ent = "testing.txt";
+		
+		Arvore tree = HuffmanEncoding.buildFileTree(ent);
 
-		tree.show_frec();
+		for(i = 0; i<d.length ;i++){
+			System.out.println(d[i].getChar()+" "+tree.getHuffmanCode(d[i].getChar()));
+		}
+
+	        BufferedReader br = null;
+	        
+		try {
+		        int sCurrentChar;
+			br = new BufferedReader(new FileReader(ent));
+			while ((sCurrentChar = br.read()) != -1) {	System.out.println((char)sCurrentChar+": "+tree.getHuffmanCode((char)sCurrentChar));}
+		} catch (IOException e) {
+	                e.printStackTrace();
+	        } finally {
+		        try {
+	                    if (br != null)br.close();
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		        }
+		}
 	}
 
 	public static Arvore buildFileTree(String arq){
 		int i;
-		Data[] d = Estatistica.distribuicao(arq);
+		d = Estatistica.distribuicao(arq);
 
 		Arvore tree = new Arvore();
 
@@ -141,19 +217,17 @@ public class HuffmanEncoding{
 		for(i = 0; i<d.length ; i++){ 
 			vec[i] = new Arvore(d[i]);
 
+			System.out.print("\n "+i+":");
+
 			vec[i].dado.print();
 		}
 
 		while(vec.length >=2){
 			//ordenar
-
 			tree = new Arvore();
 
 			tree.insert(vec[0],true);
 			tree.insert(vec[1],false);
-
-			//adicionando a arvore criada
-			vec[0] = tree;
 
 			//eliminando os anteriores
 			aux = new Arvore[vec.length];
@@ -161,12 +235,16 @@ public class HuffmanEncoding{
 
 			vec = new Arvore[aux.length - 1];
 
-			for(i = 1; i<vec.length ; i++){ vec[i] = aux[i+1];}
+			//adicionando a arvore criada
+			vec[0] = tree;
+			
+			for(i = 1; i < vec.length ; i++){ vec[i] = aux[i+1];}
 		}
 
 		return tree;
 	}
 }
+
 /*public class HuffmanEncoding{
 	int numChar;
 

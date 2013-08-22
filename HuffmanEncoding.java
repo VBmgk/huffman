@@ -88,7 +88,7 @@ class Arvore{
 			}
 
 			if(this.esq.folha == false){
-				if(this.esq.find(c) == true){
+				if(this.esq.find2(c) == true){
 					this.aux = "0"+this.aux;
 
 					return true;
@@ -102,7 +102,7 @@ class Arvore{
 			}
 			
 			if(this.dir.folha == false){
-				if(this.dir.find(c) == true){
+				if(this.dir.find2(c) == true){
 					this.aux = "1"+this.aux;
 
 					return true;
@@ -190,7 +190,7 @@ public class HuffmanEncoding{
 			System.out.println(d[i].getChar()+" "+tree.getTreeCode(d[i].getChar()));
 		}
 
-	        /*BufferedReader br = null;
+	        BufferedReader br = null;
 	        
 		try {
 		        int sCurrentChar;
@@ -204,7 +204,7 @@ public class HuffmanEncoding{
 		        } catch (IOException ex) {
 		            ex.printStackTrace();
 		        }
-		}*/
+		}
 	}
 
 	public static Arvore buildFileTree(String arq){

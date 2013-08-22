@@ -82,8 +82,7 @@ class Arvore{
 	public boolean find_2(char c){
 		if(this.folha == false){
 			if(this.esq.folha && this.esq.dado.getChar() == c){
-				if(this.aux == " "){	this.aux = "0";}
-				else{	this.aux = "0"+this.aux;}
+				this.aux = "0";
 
 				return true;
 			}
@@ -97,8 +96,7 @@ class Arvore{
 			}
 			
 			if(this.dir.folha && this.dir.dado.getChar() == c){
-				if(this.aux == " "){	this.aux = "1";}
-				else{	this.aux = "1"+this.aux;}
+				this.aux = "1";
 
 				return true;
 			}
@@ -117,7 +115,7 @@ class Arvore{
 
 	public boolean find(char c){
 		if(this.folha == false){
-			if(this.esq.folha && this.esq.dado.getChar() == c){
+			if(this.esq.folha && (this.esq.dado.getChar() == c)){
 				if(this.aux == " "){	this.aux = "01";}
 				else{	this.aux = "00"+this.aux;}
 
@@ -132,7 +130,7 @@ class Arvore{
 				}
 			}
 			
-			if(this.dir.folha && this.dir.dado.getChar() == c){
+			if(this.dir.folha && (this.dir.dado.getChar() == c)){
 				if(this.aux == " "){	this.aux = "11";}
 				else{	this.aux = "10"+this.aux;}
 
@@ -186,10 +184,10 @@ public class HuffmanEncoding{
 		Arvore tree = HuffmanEncoding.buildFileTree(ent);
 
 		for(i = 0; i<d.length ;i++){
-			System.out.println(d[i].getChar()+" "+tree.getTreeCode(d[i].getChar()));
+			System.out.println(d[i].getChar()+" "+tree.getHuffmanCode(d[i].getChar()));
 		}
 
-	        BufferedReader br = null;
+	        /*BufferedReader br = null;
 	        
 		try {
 		        int sCurrentChar;
@@ -203,11 +201,11 @@ public class HuffmanEncoding{
 		        } catch (IOException ex) {
 		            ex.printStackTrace();
 		        }
-		}
+		}*/
 	}
 
 	public static Arvore buildFileTree(String arq){
-		int i;
+		int i,j;
 		d = Estatistica.distribuicao(arq);
 
 		Arvore tree = new Arvore();
@@ -224,6 +222,16 @@ public class HuffmanEncoding{
 
 		while(vec.length >=2){
 			//ordenar
+			for(i = 0; i < vec.length ; i++){ 
+				for(j = i+1; j < vec.length; j++){
+					if(vec[i].dado.getFrec() > vec[j].dado.getFrec()){
+						tree = vec[i];
+						vec[i] = vec[j];
+						vec[j] = tree;
+					}
+				}
+			}
+
 			tree = new Arvore();
 
 			tree.insert(vec[0],true);
@@ -244,45 +252,3 @@ public class HuffmanEncoding{
 		return tree;
 	}
 }
-
-/*public class HuffmanEncoding{
-	int numChar;
-
-	public static void main(String[] args){
-		System.out.println("teste");
-		
-		teste();
-	}
-
-	public static void teste(){
-		Arvore tree = new Arvore(), a = new Arvore('a',10), b = new Arvore('b',20), d = new Arvore('d',3213), e = new Arvore('e',322);
-		Arvore aux = new  Arvore();
-
-		tree.insert(a,true);
-		tree.insert(b,false);
-		
-		aux = tree;
-		tree = new Arvore();
-
-		tree.insert(aux,false);
-		tree.insert(e,true);
-		
-		aux = tree;
-		tree = new Arvore();
-		
-		tree.insert(aux,true);
-		tree.insert(d,false);
-
-		tree.show_frec();
-
-		tree.find('a');
-		tree.print();
-		tree.find('b');
-		tree.print();
-		tree.find('e');
-		tree.print();
-		tree.find('d');
-		tree.print();
-	}
-}
-*/

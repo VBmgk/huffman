@@ -79,9 +79,9 @@ class Arvore{
 	}
 
 	
-	public boolean find_2(char c){
+	public boolean find2(char c){
 		if(this.folha == false){
-			if(this.esq.folha && this.esq.dado.getChar() == c){
+			if(this.esq.folha && (this.esq.dado.getChar() == c)){
 				this.aux = "0";
 
 				return true;
@@ -95,7 +95,7 @@ class Arvore{
 				}
 			}
 			
-			if(this.dir.folha && this.dir.dado.getChar() == c){
+			if(this.dir.folha && (this.dir.dado.getChar() == c)){
 				this.aux = "1";
 
 				return true;
@@ -150,6 +150,7 @@ class Arvore{
 	}
 
 	public String getTreeCode(char c){
+		aux = " ";
 		this.find(c);
 		String buff = this.aux;
 		aux = " ";
@@ -158,7 +159,8 @@ class Arvore{
 	}
 
 	public String getHuffmanCode(char c){
-		this.find_2(c);
+		aux = " ";
+		this.find2(c);
 		String buff = this.aux;
 		aux = " ";
 
@@ -185,6 +187,7 @@ public class HuffmanEncoding{
 
 		for(i = 0; i<d.length ;i++){
 			System.out.println(d[i].getChar()+" "+tree.getHuffmanCode(d[i].getChar()));
+			System.out.println(d[i].getChar()+" "+tree.getTreeCode(d[i].getChar()));
 		}
 
 	        /*BufferedReader br = null;
